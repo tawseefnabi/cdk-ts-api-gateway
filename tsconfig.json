@@ -22,7 +22,19 @@
     "strictPropertyInitialization": false,
     "typeRoots": [
       "./node_modules/@types"
-    ]
+    ],
+    "outDir": "./dist",
+    "module": "commonjs",
+    "target": "es6"
+  },
+  "include": [
+    "src/"
+  ],
+  "typedocOptions": {
+    "entryPoints":[
+      "src/index.ts"
+    ],
+    "out": "docs"
   },
   "exclude": [
     "node_modules",

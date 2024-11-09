@@ -1,0 +1,1190 @@
+Resources:
+  LambdaResolverServiceRoleFD801B33:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/LambdaResolver/ServiceRole/Resource
+  LambdaResolverE19FD57F:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+        S3Key: 605e5d477d2400c9cfd990afa0f55bee415df787cca6582a779ce0e6cf1dc60a.zip
+      Description: Lambda resolver used for Api Gateway YouTube tutorial
+      FunctionName: demo-resolver
+      Handler: index.handler
+      MemorySize: 256
+      Role:
+        Fn::GetAtt:
+          - LambdaResolverServiceRoleFD801B33
+          - Arn
+      Runtime: nodejs18.x
+      Timeout: 30
+    DependsOn:
+      - LambdaResolverServiceRoleFD801B33
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/LambdaResolver/Resource
+      aws:asset:path: /Users/tawseefbhat/Desktop/personal/cdk/cdk-ts-apigw/src
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  RestApi0C43BF4B:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Description: Rest Api Gateway used for Api Gateway YouTube tutorial
+      Name: demo-rest-api
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Resource
+  RestApiDeployment180EC503f08c4d5e33b9a00fef6c0b4693309e41:
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      Description: Rest Api Gateway used for Api Gateway YouTube tutorial
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    DependsOn:
+      - demobodyandparamvalidatorA44BB12D
+      - demobodyvalidatorE705ECE6
+      - demoparamvalidator3D8451C0
+      - Model0301700E
+      - RestApiOPTIONS6AA64D2D
+      - RestApiv1openDELETE29BC59DC
+      - RestApiv1openGET83051E1A
+      - RestApiv1openOPTIONS00EDC144
+      - RestApiv1openPATCH0734CF52
+      - RestApiv1openPOST5A43ACA8
+      - RestApiv1open8B6A271F
+      - RestApiv1OPTIONSE3D842E6
+      - RestApiv1BD03133D
+      - RestApiv1secureparamDELETE13EEA0A0
+      - RestApiv1secureparamGETC0940B4E
+      - RestApiv1secureparamOPTIONS07B0F123
+      - RestApiv1secureparamPATCHC9851D7D
+      - RestApiv1secureparamFC8F2360
+      - RestApiv1secureGETC5AC1312
+      - RestApiv1secureOPTIONS6A2C4DE0
+      - RestApiv1securePOSTCE86B443
+      - RestApiv1secure9953BCA0
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Deployment/Resource
+  RestApiDeploymentStageprod3855DE66:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      DeploymentId:
+        Ref: RestApiDeployment180EC503f08c4d5e33b9a00fef6c0b4693309e41
+      RestApiId:
+        Ref: RestApi0C43BF4B
+      StageName: prod
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/DeploymentStage.prod/Resource
+  RestApiOPTIONS6AA64D2D:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ApiKeyRequired: false
+      AuthorizationType: NONE
+      HttpMethod: OPTIONS
+      Integration:
+        IntegrationResponses:
+          - ResponseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+              method.response.header.Access-Control-Allow-Methods: "'GET,POST,PATCH,DELETE'"
+            StatusCode: "204"
+        RequestTemplates:
+          application/json: "{ statusCode: 200 }"
+        Type: MOCK
+      MethodResponses:
+        - ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: true
+            method.response.header.Access-Control-Allow-Origin: true
+            method.response.header.Access-Control-Allow-Methods: true
+          StatusCode: "204"
+      ResourceId:
+        Fn::GetAtt:
+          - RestApi0C43BF4B
+          - RootResourceId
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/OPTIONS/Resource
+  RestApiv1BD03133D:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Fn::GetAtt:
+          - RestApi0C43BF4B
+          - RootResourceId
+      PathPart: v1
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/Resource
+  RestApiv1OPTIONSE3D842E6:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ApiKeyRequired: false
+      AuthorizationType: NONE
+      HttpMethod: OPTIONS
+      Integration:
+        IntegrationResponses:
+          - ResponseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+              method.response.header.Access-Control-Allow-Methods: "'GET,POST,PATCH,DELETE'"
+            StatusCode: "204"
+        RequestTemplates:
+          application/json: "{ statusCode: 200 }"
+        Type: MOCK
+      MethodResponses:
+        - ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: true
+            method.response.header.Access-Control-Allow-Origin: true
+            method.response.header.Access-Control-Allow-Methods: true
+          StatusCode: "204"
+      ResourceId:
+        Ref: RestApiv1BD03133D
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/OPTIONS/Resource
+  RestApiv1open8B6A271F:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: RestApiv1BD03133D
+      PathPart: open
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/open/Resource
+  RestApiv1openOPTIONS00EDC144:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ApiKeyRequired: false
+      AuthorizationType: NONE
+      HttpMethod: OPTIONS
+      Integration:
+        IntegrationResponses:
+          - ResponseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+              method.response.header.Access-Control-Allow-Methods: "'GET,POST,PATCH,DELETE'"
+            StatusCode: "204"
+        RequestTemplates:
+          application/json: "{ statusCode: 200 }"
+        Type: MOCK
+      MethodResponses:
+        - ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: true
+            method.response.header.Access-Control-Allow-Origin: true
+            method.response.header.Access-Control-Allow-Methods: true
+          StatusCode: "204"
+      ResourceId:
+        Ref: RestApiv1open8B6A271F
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/open/OPTIONS/Resource
+  RestApiv1openGETApiPermissionCdkTsApigwStackRestApiB5C40187GETv1open4386D56D:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /
+            - Ref: RestApiDeploymentStageprod3855DE66
+            - /GET/v1/open
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/open/GET/ApiPermission.CdkTsApigwStackRestApiB5C40187.GET..v1.open
+  RestApiv1openGETApiPermissionTestCdkTsApigwStackRestApiB5C40187GETv1open3F932E51:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /test-invoke-stage/GET/v1/open
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/open/GET/ApiPermission.Test.CdkTsApigwStackRestApiB5C40187.GET..v1.open
+  RestApiv1openGET83051E1A:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: GET
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - LambdaResolverE19FD57F
+                  - Arn
+              - /invocations
+      OperationName: GET Open Resource
+      ResourceId:
+        Ref: RestApiv1open8B6A271F
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/open/GET/Resource
+  RestApiv1openPOSTApiPermissionCdkTsApigwStackRestApiB5C40187POSTv1open657A1521:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /
+            - Ref: RestApiDeploymentStageprod3855DE66
+            - /POST/v1/open
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/open/POST/ApiPermission.CdkTsApigwStackRestApiB5C40187.POST..v1.open
+  RestApiv1openPOSTApiPermissionTestCdkTsApigwStackRestApiB5C40187POSTv1open3644EFDE:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /test-invoke-stage/POST/v1/open
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/open/POST/ApiPermission.Test.CdkTsApigwStackRestApiB5C40187.POST..v1.open
+  RestApiv1openPOST5A43ACA8:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: POST
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - LambdaResolverE19FD57F
+                  - Arn
+              - /invocations
+      OperationName: POST Open Resource
+      ResourceId:
+        Ref: RestApiv1open8B6A271F
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/open/POST/Resource
+  RestApiv1openPATCHApiPermissionCdkTsApigwStackRestApiB5C40187PATCHv1openA6E04989:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /
+            - Ref: RestApiDeploymentStageprod3855DE66
+            - /PATCH/v1/open
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/open/PATCH/ApiPermission.CdkTsApigwStackRestApiB5C40187.PATCH..v1.open
+  RestApiv1openPATCHApiPermissionTestCdkTsApigwStackRestApiB5C40187PATCHv1openE7D176DB:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /test-invoke-stage/PATCH/v1/open
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/open/PATCH/ApiPermission.Test.CdkTsApigwStackRestApiB5C40187.PATCH..v1.open
+  RestApiv1openPATCH0734CF52:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: PATCH
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - LambdaResolverE19FD57F
+                  - Arn
+              - /invocations
+      OperationName: PATCH Open Resource
+      ResourceId:
+        Ref: RestApiv1open8B6A271F
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/open/PATCH/Resource
+  RestApiv1openDELETEApiPermissionCdkTsApigwStackRestApiB5C40187DELETEv1open627291AD:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /
+            - Ref: RestApiDeploymentStageprod3855DE66
+            - /DELETE/v1/open
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/open/DELETE/ApiPermission.CdkTsApigwStackRestApiB5C40187.DELETE..v1.open
+  RestApiv1openDELETEApiPermissionTestCdkTsApigwStackRestApiB5C40187DELETEv1openC4D8752E:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /test-invoke-stage/DELETE/v1/open
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/open/DELETE/ApiPermission.Test.CdkTsApigwStackRestApiB5C40187.DELETE..v1.open
+  RestApiv1openDELETE29BC59DC:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: DELETE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - LambdaResolverE19FD57F
+                  - Arn
+              - /invocations
+      OperationName: DELETE Open Resource
+      ResourceId:
+        Ref: RestApiv1open8B6A271F
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/open/DELETE/Resource
+  RestApiv1secure9953BCA0:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: RestApiv1BD03133D
+      PathPart: secure
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/Resource
+  RestApiv1secureOPTIONS6A2C4DE0:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ApiKeyRequired: false
+      AuthorizationType: NONE
+      HttpMethod: OPTIONS
+      Integration:
+        IntegrationResponses:
+          - ResponseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+              method.response.header.Access-Control-Allow-Methods: "'GET,POST,PATCH,DELETE'"
+            StatusCode: "204"
+        RequestTemplates:
+          application/json: "{ statusCode: 200 }"
+        Type: MOCK
+      MethodResponses:
+        - ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: true
+            method.response.header.Access-Control-Allow-Origin: true
+            method.response.header.Access-Control-Allow-Methods: true
+          StatusCode: "204"
+      ResourceId:
+        Ref: RestApiv1secure9953BCA0
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/OPTIONS/Resource
+  RestApiv1secureparamFC8F2360:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: RestApiv1secure9953BCA0
+      PathPart: "{param}"
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/{param}/Resource
+  RestApiv1secureparamOPTIONS07B0F123:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ApiKeyRequired: false
+      AuthorizationType: NONE
+      HttpMethod: OPTIONS
+      Integration:
+        IntegrationResponses:
+          - ResponseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+              method.response.header.Access-Control-Allow-Methods: "'GET,POST,PATCH,DELETE'"
+            StatusCode: "204"
+        RequestTemplates:
+          application/json: "{ statusCode: 200 }"
+        Type: MOCK
+      MethodResponses:
+        - ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: true
+            method.response.header.Access-Control-Allow-Origin: true
+            method.response.header.Access-Control-Allow-Methods: true
+          StatusCode: "204"
+      ResourceId:
+        Ref: RestApiv1secureparamFC8F2360
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/{param}/OPTIONS/Resource
+  RestApiv1secureparamGETApiPermissionCdkTsApigwStackRestApiB5C40187GETv1secureparam0A957828:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /
+            - Ref: RestApiDeploymentStageprod3855DE66
+            - /GET/v1/secure/*
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/{param}/GET/ApiPermission.CdkTsApigwStackRestApiB5C40187.GET..v1.secure.{param}
+  RestApiv1secureparamGETApiPermissionTestCdkTsApigwStackRestApiB5C40187GETv1secureparamA2F8F515:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /test-invoke-stage/GET/v1/secure/*
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/{param}/GET/ApiPermission.Test.CdkTsApigwStackRestApiB5C40187.GET..v1.secure.{param}
+  RestApiv1secureparamGETC0940B4E:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ApiKeyRequired: true
+      AuthorizationType: NONE
+      HttpMethod: GET
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - LambdaResolverE19FD57F
+                  - Arn
+              - /invocations
+      OperationName: GET Secure Resource
+      RequestParameters:
+        method.request.path.param: true
+      RequestValidatorId:
+        Ref: demoparamvalidator3D8451C0
+      ResourceId:
+        Ref: RestApiv1secureparamFC8F2360
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/{param}/GET/Resource
+  RestApiv1secureparamDELETEApiPermissionCdkTsApigwStackRestApiB5C40187DELETEv1secureparam784A0792:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /
+            - Ref: RestApiDeploymentStageprod3855DE66
+            - /DELETE/v1/secure/*
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/{param}/DELETE/ApiPermission.CdkTsApigwStackRestApiB5C40187.DELETE..v1.secure.{param}
+  RestApiv1secureparamDELETEApiPermissionTestCdkTsApigwStackRestApiB5C40187DELETEv1secureparam6AC768E0:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /test-invoke-stage/DELETE/v1/secure/*
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/{param}/DELETE/ApiPermission.Test.CdkTsApigwStackRestApiB5C40187.DELETE..v1.secure.{param}
+  RestApiv1secureparamDELETE13EEA0A0:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ApiKeyRequired: true
+      AuthorizationType: NONE
+      HttpMethod: DELETE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - LambdaResolverE19FD57F
+                  - Arn
+              - /invocations
+      OperationName: DELETE Secure Resource
+      RequestParameters:
+        method.request.path.param: true
+      RequestValidatorId:
+        Ref: demoparamvalidator3D8451C0
+      ResourceId:
+        Ref: RestApiv1secureparamFC8F2360
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/{param}/DELETE/Resource
+  RestApiv1secureparamPATCHApiPermissionCdkTsApigwStackRestApiB5C40187PATCHv1secureparam919EDD96:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /
+            - Ref: RestApiDeploymentStageprod3855DE66
+            - /PATCH/v1/secure/*
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/{param}/PATCH/ApiPermission.CdkTsApigwStackRestApiB5C40187.PATCH..v1.secure.{param}
+  RestApiv1secureparamPATCHApiPermissionTestCdkTsApigwStackRestApiB5C40187PATCHv1secureparam12809C7B:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /test-invoke-stage/PATCH/v1/secure/*
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/{param}/PATCH/ApiPermission.Test.CdkTsApigwStackRestApiB5C40187.PATCH..v1.secure.{param}
+  RestApiv1secureparamPATCHC9851D7D:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ApiKeyRequired: true
+      AuthorizationType: NONE
+      HttpMethod: PATCH
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - LambdaResolverE19FD57F
+                  - Arn
+              - /invocations
+      OperationName: PATCH Secure  param Resource
+      RequestModels:
+        application/json:
+          Ref: Model0301700E
+      RequestParameters:
+        method.request.path.param: true
+      RequestValidatorId:
+        Ref: demobodyandparamvalidatorA44BB12D
+      ResourceId:
+        Ref: RestApiv1secureparamFC8F2360
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/{param}/PATCH/Resource
+  RestApiv1secureGETApiPermissionCdkTsApigwStackRestApiB5C40187GETv1secure41F96160:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /
+            - Ref: RestApiDeploymentStageprod3855DE66
+            - /GET/v1/secure
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/GET/ApiPermission.CdkTsApigwStackRestApiB5C40187.GET..v1.secure
+  RestApiv1secureGETApiPermissionTestCdkTsApigwStackRestApiB5C40187GETv1secure9E9CA0DF:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /test-invoke-stage/GET/v1/secure
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/GET/ApiPermission.Test.CdkTsApigwStackRestApiB5C40187.GET..v1.secure
+  RestApiv1secureGETC5AC1312:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ApiKeyRequired: true
+      AuthorizationType: NONE
+      HttpMethod: GET
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - LambdaResolverE19FD57F
+                  - Arn
+              - /invocations
+      OperationName: GET Secure Resource
+      ResourceId:
+        Ref: RestApiv1secure9953BCA0
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/GET/Resource
+  RestApiv1securePOSTApiPermissionCdkTsApigwStackRestApiB5C40187POSTv1secure41A46A54:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /
+            - Ref: RestApiDeploymentStageprod3855DE66
+            - /POST/v1/secure
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/POST/ApiPermission.CdkTsApigwStackRestApiB5C40187.POST..v1.secure
+  RestApiv1securePOSTApiPermissionTestCdkTsApigwStackRestApiB5C40187POSTv1secureE6485186:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaResolverE19FD57F
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: RestApi0C43BF4B
+            - /test-invoke-stage/POST/v1/secure
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/POST/ApiPermission.Test.CdkTsApigwStackRestApiB5C40187.POST..v1.secure
+  RestApiv1securePOSTCE86B443:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ApiKeyRequired: true
+      AuthorizationType: NONE
+      HttpMethod: POST
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - LambdaResolverE19FD57F
+                  - Arn
+              - /invocations
+      OperationName: POST Secure Resource
+      RequestModels:
+        application/json:
+          Ref: Model0301700E
+      RequestValidatorId:
+        Ref: demobodyvalidatorE705ECE6
+      ResourceId:
+        Ref: RestApiv1secure9953BCA0
+      RestApiId:
+        Ref: RestApi0C43BF4B
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/Default/v1/secure/POST/Resource
+  RestApiUsagePlan6E1C537A:
+    Type: AWS::ApiGateway::UsagePlan
+    Properties:
+      ApiStages:
+        - ApiId:
+            Ref: RestApi0C43BF4B
+          Stage:
+            Ref: RestApiDeploymentStageprod3855DE66
+          Throttle: {}
+      Description: Usage plan used for Api Gateway YouTube tutorial
+      Quota:
+        Limit: 100
+        Period: DAY
+      Throttle:
+        BurstLimit: 10
+        RateLimit: 20
+      UsagePlanName: demo-usage-plan
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/UsagePlan/Resource
+  RestApiUsagePlanUsagePlanKeyResourceCdkTsApigwStackRestApiApiKeyBEE137836011FF3E:
+    Type: AWS::ApiGateway::UsagePlanKey
+    Properties:
+      KeyId:
+        Ref: RestApiApiKey5B1534BA
+      KeyType: API_KEY
+      UsagePlanId:
+        Ref: RestApiUsagePlan6E1C537A
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/UsagePlan/UsagePlanKeyResource:CdkTsApigwStackRestApiApiKeyBEE13783
+  RestApiApiKey5B1534BA:
+    Type: AWS::ApiGateway::ApiKey
+    Properties:
+      Description: Api Key used for Api Gateway YouTube tutorial
+      Enabled: true
+      Name: demo-api-key
+      StageKeys:
+        - RestApiId:
+            Ref: RestApi0C43BF4B
+          StageName:
+            Ref: RestApiDeploymentStageprod3855DE66
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/RestApi/ApiKey/Resource
+  demobodyvalidatorE705ECE6:
+    Type: AWS::ApiGateway::RequestValidator
+    Properties:
+      Name: demo-body-validator
+      RestApiId:
+        Ref: RestApi0C43BF4B
+      ValidateRequestBody: true
+      ValidateRequestParameters: false
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/demo-body-validator/Resource
+  demoparamvalidator3D8451C0:
+    Type: AWS::ApiGateway::RequestValidator
+    Properties:
+      Name: demo-param-validator
+      RestApiId:
+        Ref: RestApi0C43BF4B
+      ValidateRequestBody: false
+      ValidateRequestParameters: true
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/demo-param-validator/Resource
+  demobodyandparamvalidatorA44BB12D:
+    Type: AWS::ApiGateway::RequestValidator
+    Properties:
+      Name: demo-body-and-param-validator
+      RestApiId:
+        Ref: RestApi0C43BF4B
+      ValidateRequestBody: true
+      ValidateRequestParameters: true
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/demo-body-and-param-validator/Resource
+  Model0301700E:
+    Type: AWS::ApiGateway::Model
+    Properties:
+      ContentType: application/json
+      Name: DemoModel
+      RestApiId:
+        Ref: RestApi0C43BF4B
+      Schema:
+        type: object
+        required:
+          - name
+        properties:
+          name:
+            type: string
+        $schema: http://json-schema.org/draft-04/schema#
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/Model/Resource
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Analytics: v2:deflate64:H4sIAAAAAAAA/22QT0/DMAzFP8vuWdgfAeetExc0MXWC6+Q1bvGWJqV2mKaq3x0lLWIgTu9nO3l58ULPH+71bAIXnhbmPLV01N1eoDgruPChs1AfDejuKbhCyDuVle6Wd9jWxEze9Yqg1l3uLcZB1F7x8gDMKKxXURQv9ToUZ5Q1MCpoqALBC1x1lyPLqqF0dcQNNtZfa3QSuzfVXqBKjwyQI/vQFpg8tyjv3sThSN/T0XngV4YKdxbSH/4vnvGqVg1FyUo3Uo4fAVnewJIB8e1g+qe39QZtShCh738ipCXE0OSqeOAlSBPkV7KsdJl3hiSt1HmD+sR3n4uZnj/q2eTERNM2OKEadT7oF7WTyZDEAQAA
+    Metadata:
+      aws:cdk:path: CdkTsApigwStack/CDKMetadata/Default
+    Condition: CDKMetadataAvailable
+Outputs:
+  RestApiEndpoint0551178A:
+    Value:
+      Fn::Join:
+        - ""
+        - - https://
+          - Ref: RestApi0C43BF4B
+          - .execute-api.
+          - Ref: AWS::Region
+          - "."
+          - Ref: AWS::URLSuffix
+          - /
+          - Ref: RestApiDeploymentStageprod3855DE66
+          - /
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - af-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-3
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-4
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-south-2
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - il-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+      - Fn::Equals:
+          - Ref: AWS::Region
+          - us-west-2
+Parameters:
+  BootstrapVersion:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /cdk-bootstrap/hnb659fds/version
+    Description: Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]
+
